@@ -1,5 +1,4 @@
-#Word-L
-###Word-L is a wordlist generator.
+Word-L is a wordlist generator.
 ---
 - **Requirements**
     - **Python3**
