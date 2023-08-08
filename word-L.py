@@ -1,6 +1,7 @@
 from itertools import permutations
 import os
 import random
+import sys
 
 def banner(bannernum):
     if bannernum==0:
@@ -69,32 +70,60 @@ def bannernummaker():
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def nooutput():
+    keywordstr=sys.argv[2]
+    keywordlist=keywordstr.split(",")
+    iterwordlist=permutations(keywordlist)
 
-banner(bannernummaker())
-
-#takin keywords as string
-print("usage: word1,word2,word3,...")
-keywordstr=str(input("keywords: "))
-clear()
-
-#adding keywords to keywordlist with split
-keywordlist=keywordstr.split(",")
-#doing permutation
-iterwordlist=permutations(keywordlist)
-
-#after permutation adding elements from iterwordlist to wordlist
-wordlist=[]
-for i in iterwordlist:
-    str=''
-    for item in i:
-        str=str+item
-        wordlist.append(str)
-
-#for i in wordlist:
-#    print(i)
-
-#writing everythin into wordlist.txt file
-with open("wordlist.txt","w",encoding="utf-8") as file:
+    wordlist=[]
+    for i in iterwordlist:
+        str=''
+        for item in i:
+            str=str+item
+            wordlist.append(str)
+    
     for i in wordlist:
-        file.write(i+"\n")
-print("Thank you for choosing us. Have a good day sir.")
+        print(i)
+
+def cli():
+    banner(bannernummaker())
+
+    #takin keywords as string
+    print("usage: word1,word2,word3,...")
+    keywordstr=input("keywords\n>>>")
+    saveloc=input("save location\nex: ./wordlist.txt\n>>>")
+    clear()
+
+    #adding keywords to keywordlist with split
+    keywordlist=keywordstr.split(",")
+    #doing permutation
+    iterwordlist=permutations(keywordlist)
+
+    #after permutation adding elements from iterwordlist to wordlist
+    wordlist=[]
+    for i in iterwordlist:
+        str=''
+        for item in i:
+            str=str+item
+            wordlist.append(str)
+
+    #for i in wordlist:
+    #    print(i)
+
+    #writing everythin into wordlist.txt file
+    with open(saveloc,"w",encoding="utf-8") as file:
+        for i in wordlist:
+            file.write(i+"\n")
+    print("Thank you for choosing us. Have a good day sir.")
+
+
+if "-h" in sys.argv or "--help" in sys.argv:
+    print("""
+USAGE:
+        python3 word-L.py                            open cli and save wordlist as text
+        python3 word-L.py -h                         open this help page
+        python3 word-L.pt -w word1,word2,word3...    print all the outputs to the terminal""")
+elif "-w" in sys.argv:
+    nooutput()
+else:
+    cli()
